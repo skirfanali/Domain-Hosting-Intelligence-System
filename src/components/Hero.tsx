@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
+
 const Hero = () => {
   const [domain, setDomain] = useState("");
   const [typedText, setTypedText] = useState("");
@@ -14,21 +15,29 @@ const Hero = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
 
   // Typing effect
-  useEffect(() => {
+   useEffect(() => {
     const handleTyping = () => {
       if (!isDeleting) {
         setTypedText(fullText.substring(0, index + 1));
         setIndex(index + 1);
+
+        // when text fully typed
         if (index + 1 === fullText.length) {
-          setIsDeleting(true);
-          setSpeed(50);
+          setTimeout(() => {
+            setIsDeleting(true);
+            setSpeed(50);
+          }, 4000); // ⏸ pause 3 seconds before deleting
         }
       } else {
         setTypedText(fullText.substring(0, index - 1));
         setIndex(index - 1);
+
+        // when text fully deleted
         if (index - 1 === 0) {
-          setIsDeleting(false);
-          setSpeed(150);
+          setTimeout(() => {
+            setIsDeleting(false);
+            setSpeed(150);
+          }, 0); // ⏸ pause 0 seconds before typing again
         }
       }
     };
